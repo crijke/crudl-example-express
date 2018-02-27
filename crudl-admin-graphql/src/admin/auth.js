@@ -1,6 +1,5 @@
 import { login as loginConnector } from './connectors'
 
-//-------------------------------------------------------------------
 const login = {
   actions: {
     login: loginConnector.create
@@ -20,8 +19,7 @@ login.fields = [
   }
 ]
 
-//-------------------------------------------------------------------
-module.exports = {
+export default {
   login,
   logout: undefined // Logout is optional
 }

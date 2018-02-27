@@ -102,7 +102,7 @@ export const login = createFrontendConnector(createBackendConnector())
   .use(url('/rest-api/login/'))
   .use(crudToHttp())
   .use(
-    require('../../../crudl-admin-rest/admin/connectors/middleware/crudlErrors')
+    require('./middleware/crudlErrors')
       .default
   ) // rest-api errors
   .use(

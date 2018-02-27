@@ -1,3 +1,4 @@
+import crudl from '@crudlio/crudl/dist/crudl'
 import { slugify } from '../utils'
 
 import { createResourceConnector } from '../connectors'
@@ -9,7 +10,6 @@ const tags = createResourceConnector('tags', tagFields).use(
 )
 const entries = createResourceConnector('entries', '_id')
 
-//-------------------------------------------------------------------
 const listView = {
   path: 'tags',
   title: 'Tags',
@@ -84,7 +84,6 @@ listView.filters = {
   ]
 }
 
-//-------------------------------------------------------------------
 const changeView = {
   path: 'tags/:_id',
   title: 'Tag',
@@ -120,7 +119,6 @@ changeView.fields = [
   }
 ]
 
-//-------------------------------------------------------------------
 const addView = {
   path: 'tags/new',
   title: 'New Tag',
@@ -132,7 +130,7 @@ const addView = {
   }
 }
 
-module.exports = {
+export default {
   listView,
   changeView,
   addView

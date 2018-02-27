@@ -1,7 +1,6 @@
 import toPath from 'lodash/toPath'
 import get from 'lodash/get'
 
-//-------------------------------------------------------------------
 export function continuousPagination(res) {
   const key = Object.keys(res.data.data)[0]
   const hasNext = res.data.data[key].pageInfo.hasNextPage
@@ -16,7 +15,6 @@ export function continuousPagination(res) {
   }
 }
 
-//-------------------------------------------------------------------
 function objectToArgs(object) {
   const args = Object.getOwnPropertyNames(object)
     .map(name => `${name}: ${JSON.stringify(object[name])}`)
@@ -56,7 +54,6 @@ export function listQuery(options) {
   }
 }
 
-//-------------------------------------------------------------------
 export function join(p1, p2, var1, var2, defaultValue = {}) {
   return Promise.all([p1, p2]).then(responses =>
     responses[0].set(

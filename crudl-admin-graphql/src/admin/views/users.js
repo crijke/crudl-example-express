@@ -1,4 +1,5 @@
 import React from 'react'
+import crudl from '@crudlio/crudl/dist/crudl'
 import SplitDateTimeField from '../fields/SplitDateTimeField'
 
 import { createResourceConnector } from '../connectors'
@@ -7,7 +8,6 @@ const userFields =
   '_id, username, first_name, last_name, email, is_active, is_staff, date_joined'
 const users = createResourceConnector('users', userFields)
 
-//-------------------------------------------------------------------
 const listView = {
   path: 'users',
   title: 'Users',
@@ -69,7 +69,6 @@ listView.fields = [
   }
 ]
 
-//-------------------------------------------------------------------
 const changeView = {
   path: 'users/:_id',
   title: 'User',
@@ -204,7 +203,6 @@ changeView.fieldsets = [
   }
 ]
 
-//-------------------------------------------------------------------
 const addView = {
   path: 'users/new',
   title: 'New User',
@@ -288,7 +286,8 @@ addView.fieldsets = [
   }
 ]
 
-module.exports = {
+
+export default {
   listView,
   changeView,
   addView

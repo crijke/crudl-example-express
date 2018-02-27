@@ -1,5 +1,6 @@
-import { slugify } from '../utils'
 import React from 'react'
+import crudl from '@crudlio/crudl/dist/crudl'
+import { slugify } from '../utils'
 
 import { createResourceConnector } from '../connectors'
 
@@ -7,7 +8,6 @@ const sectionFields = '_id, name, slug, position'
 const sections = createResourceConnector('sections', sectionFields)
 const entries = createResourceConnector('entries', '_id')
 
-//-------------------------------------------------------------------
 const listView = {
   path: 'sections',
   title: 'Sections',
@@ -72,7 +72,6 @@ listView.fields = [
   }
 ]
 
-//-------------------------------------------------------------------
 const changeView = {
   path: 'sections/:_id',
   title: 'Section',
@@ -116,7 +115,6 @@ changeView.fields = [
   }
 ]
 
-//-------------------------------------------------------------------
 const addView = {
   path: 'sections/new',
   title: 'New Section',
@@ -128,7 +126,7 @@ const addView = {
   }
 }
 
-module.exports = {
+export default {
   listView,
   changeView,
   addView
