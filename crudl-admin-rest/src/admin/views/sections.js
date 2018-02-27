@@ -8,17 +8,17 @@ const section = detail('sections')
 const entries = list('entries')
 
 //-------------------------------------------------------------------
-var listView = {
+const listView = {
   path: 'sections',
   title: 'Sections',
   actions: {
     /* counting the entries requires an additional API call per row. please note that the
         number of entries could be added at the database level, removing this additional call. */
-    list: function(req) {
+    list(req) {
       return sections.read(req).then(res => {
         // The result of the following line is an array of promises, where each promise resolves
         // to an array of entries associated with the item
-        let promises = res.map(item =>
+        const promises = res.map(item =>
           entries.read(req.filter('section', item._id))
         )
         // We return a single promise that synchronizes on all the promises created in the previous step
@@ -80,17 +80,17 @@ listView.fields = [
 ]
 
 //-------------------------------------------------------------------
-var changeView = {
+const changeView = {
   path: 'sections/:_id',
   title: 'Section',
   actions: {
-    get: function(req) {
+    get(req) {
       return section(crudl.path._id).read(req)
     },
-    delete: function(req) {
+    delete(req) {
       return section(crudl.path._id).delete(req)
     },
-    save: function(req) {
+    save(req) {
       return section(crudl.path._id).update(req)
     }
   }
@@ -124,12 +124,12 @@ changeView.fields = [
 ]
 
 //-------------------------------------------------------------------
-var addView = {
+const addView = {
   path: 'sections/new',
   title: 'New Section',
   fields: changeView.fields,
   actions: {
-    add: function(req) {
+    add(req) {
       return sections.create(req)
     }
   }

@@ -1,22 +1,23 @@
-var mongoose = require('mongoose')
-var mongoosePaginate = require('mongoose-paginate')
-var async = require('async')
-var colors = require('colors')
-var faker = require('faker')
-var _ = require('lodash')
-var bcrypt = require('bcrypt')
-var crypto = require('crypto')
-var validator = require('validator')
-var ValidationError = mongoose.Error.ValidationError
-var Schema = mongoose.Schema
+const mongoose = require('mongoose')
+const mongoosePaginate = require('mongoose-paginate')
+const async = require('async')
+const colors = require('colors')
+const faker = require('faker')
+const _ = require('lodash')
+const bcrypt = require('bcrypt')
+const crypto = require('crypto')
+const validator = require('validator')
+
+const ValidationError = mongoose.Error.ValidationError
+const Schema = mongoose.Schema
 const SALT_WORK_FACTOR = 10
 
-var validateEmail = function(email) {
+const validateEmail = function(email) {
   if (email) return validator.isEmail(email)
   return true
 }
 
-var validateURL = function(url) {
+const validateURL = function(url) {
   if (url) return validator.isURL(url)
   return true
 }
@@ -25,7 +26,7 @@ function omitUndefined(value) {
   return value === undefined ? '' : value
 }
 
-var UserSchema = new Schema({
+const UserSchema = new Schema({
   username: { type: String, maxlength: 30, required: true, unique: true },
   password: { type: String, maxlength: 128, required: true },
   first_name: { type: String, maxlength: 30, default: '', set: omitUndefined },
@@ -45,7 +46,7 @@ var UserSchema = new Schema({
 })
 UserSchema.post('validate', function(doc, next) {
   if (doc.is_staff && !doc.is_active) {
-    var error = new ValidationError(this)
+    const error = new ValidationError(this)
     error.errors.__all__ = { message: 'Staff member requires active user.' }
     next(error)
   } else {
@@ -53,11 +54,11 @@ UserSchema.post('validate', function(doc, next) {
   }
 })
 UserSchema.pre('save', function(next) {
-  var user = this
+  const user = this
   if (!user.isModified('password')) return next()
-  bcrypt.genSalt(SALT_WORK_FACTOR, function(err, salt) {
+  bcrypt.genSalt(SALT_WORK_FACTOR, (err, salt) => {
     if (err) return next(err)
-    bcrypt.hash(user.password, salt, function(err, hash) {
+    bcrypt.hash(user.password, salt, (err, hash) => {
       if (err) return next(err)
       user.password = hash
       next()
@@ -65,11 +66,11 @@ UserSchema.pre('save', function(next) {
   })
 })
 UserSchema.pre('save', function(next) {
-  var user = this
+  const user = this
   if (user.is_staff && user.is_active) {
     if (!user.token) {
-      crypto.randomBytes(48, function(ex, buf) {
-        var token = buf
+      crypto.randomBytes(48, (ex, buf) => {
+        const token = buf
           .toString('base64')
           .replace(/\//g, '_')
           .replace(/\+/g, '-')
@@ -85,39 +86,39 @@ UserSchema.pre('save', function(next) {
   }
 })
 UserSchema.methods.comparePassword = function(candidatePassword, cb) {
-  bcrypt.compare(candidatePassword, this.password, function(err, isMatch) {
+  bcrypt.compare(candidatePassword, this.password, (err, isMatch) => {
     if (err) return cb(err)
     cb(null, isMatch)
   })
 }
 UserSchema.plugin(mongoosePaginate)
-var User = mongoose.model('User', UserSchema)
+const User = mongoose.model('User', UserSchema)
 
-var SectionSchema = new Schema({
+const SectionSchema = new Schema({
   name: { type: String, maxlength: 100, required: true, unique: true },
   slug: { type: String, maxlength: 100 },
   position: { type: Number }
 })
 SectionSchema.plugin(mongoosePaginate)
-var Section = mongoose.model('Section', SectionSchema)
+const Section = mongoose.model('Section', SectionSchema)
 
-var CategorySchema = new Schema({
+const CategorySchema = new Schema({
   section: { type: Schema.Types.ObjectId, ref: 'Section', required: true },
   name: { type: String, maxlength: 100, required: true },
   slug: { type: String, maxlength: 100 },
   position: { type: Number }
 })
 CategorySchema.plugin(mongoosePaginate)
-var Category = mongoose.model('Category', CategorySchema)
+const Category = mongoose.model('Category', CategorySchema)
 
-var TagSchema = new Schema({
+const TagSchema = new Schema({
   name: { type: String, maxlength: 200, required: true, unique: true },
   slug: { type: String, maxlength: 100 }
 })
 TagSchema.plugin(mongoosePaginate)
-var Tag = mongoose.model('Tag', TagSchema)
+const Tag = mongoose.model('Tag', TagSchema)
 
-var EntrySchema = new Schema({
+const EntrySchema = new Schema({
   title: { type: String, maxlength: 200, required: true },
   status: {
     type: String,
@@ -151,9 +152,9 @@ EntrySchema.pre('save', function(next) {
   next()
 })
 EntrySchema.plugin(mongoosePaginate)
-var Entry = mongoose.model('Entry', EntrySchema)
+const Entry = mongoose.model('Entry', EntrySchema)
 
-var EntryLinkSchema = new Schema({
+const EntryLinkSchema = new Schema({
   entry: { type: Schema.Types.ObjectId, required: true },
   url: {
     type: String,
@@ -171,7 +172,7 @@ var EntryLinkSchema = new Schema({
   position: { type: Number }
 })
 EntryLinkSchema.plugin(mongoosePaginate)
-var EntryLink = mongoose.model('EntryLink', EntryLinkSchema)
+const EntryLink = mongoose.model('EntryLink', EntryLinkSchema)
 
 module.exports = {
   models: {

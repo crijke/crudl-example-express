@@ -44,7 +44,7 @@ export function createResourceConnector(namePl, fields) {
   const nameSg = pluralize.singular(namePl)
   const NameSg = nameSg.charAt(0).toUpperCase() + nameSg.slice(1)
 
-  //-- CREATE QUERY --
+  // -- CREATE QUERY --
   const createQuery = `
     mutation ($input: ${NameSg}Input!) {
         add${NameSg} (data: $input) {
@@ -56,11 +56,11 @@ export function createResourceConnector(namePl, fields) {
   const createQueryData = `add${NameSg}.${nameSg}` // e.g. addUser.user
   const createQueryError = `add${NameSg}.errors` // e.g. addUser.errors
 
-  //-- READ QUERY --
+  // -- READ QUERY --
   const readQuery = `{ ${nameSg} (id: "%_id") {${fields}} }`
   const readQueryData = nameSg
 
-  //-- UPDATE QUERY --
+  // -- UPDATE QUERY --
   const updateQuery = `
     mutation ($input: ${NameSg}Input!) {
         change${NameSg} (id: "%_id", data: $input) {
@@ -72,7 +72,7 @@ export function createResourceConnector(namePl, fields) {
   const updateQueryData = `change${NameSg}.${nameSg}` // e.g. changeUser.user
   const updateQueryError = `change${NameSg}.errors` // e.g. changeUser.errors
 
-  //-- DELETE QUERY --
+  // -- DELETE QUERY --
   const deleteQuery = `mutation { delete${NameSg} (id: "%_id") { deleted } }`
   const deleteQueryData = 'deleted'
 

@@ -10,7 +10,7 @@ import {
 } from 'graphql'
 import { connectionDefinitions } from 'graphql-relay'
 
-let TagType = new GraphQLObjectType({
+const TagType = new GraphQLObjectType({
   name: 'Tag',
   fields: () => ({
     _id: {
@@ -25,7 +25,7 @@ let TagType = new GraphQLObjectType({
   })
 })
 
-let TagInputType = new GraphQLInputObjectType({
+const TagInputType = new GraphQLInputObjectType({
   name: 'TagInput',
   fields: () => ({
     _id: {
@@ -43,7 +43,7 @@ let TagInputType = new GraphQLInputObjectType({
   })
 })
 
-let TagResultType = new GraphQLObjectType({
+const TagResultType = new GraphQLObjectType({
   name: 'TagResult',
   fields: () => ({
     errors: {
@@ -55,7 +55,7 @@ let TagResultType = new GraphQLObjectType({
   })
 })
 
-let TagDeleteType = new GraphQLObjectType({
+const TagDeleteType = new GraphQLObjectType({
   name: 'TagDelete',
   fields: () => ({
     deleted: {
@@ -86,9 +86,9 @@ const {
 })
 
 module.exports = {
-  TagListConnection: TagListConnection,
-  TagType: TagType,
-  TagInputType: TagInputType,
-  TagResultType: TagResultType,
-  TagDeleteType: TagDeleteType
+  TagListConnection,
+  TagType,
+  TagInputType,
+  TagResultType,
+  TagDeleteType
 }

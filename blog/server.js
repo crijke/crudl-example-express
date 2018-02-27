@@ -1,25 +1,26 @@
-var express = require('express')
-var paginate = require('express-paginate')
-var bodyParser = require('body-parser')
-var mongoose = require('mongoose')
-var graphqlHTTP = require('express-graphql')
-var db = require('./db')
-var path = require('path')
-var api = require('./rest/api')
+const express = require('express')
+const paginate = require('express-paginate')
+const bodyParser = require('body-parser')
+const mongoose = require('mongoose')
+const graphqlHTTP = require('express-graphql')
+const db = require('./db')
+const path = require('path')
+const api = require('./rest/api')
+
 import schema from './graphql/schema.js'
 
-var app = express()
+const app = express()
 mongoose.connect(db.url)
 
-mongoose.connection.on('error', function() {
+mongoose.connection.on('error', () => {
   console.log('Failed to connect to the db.')
 })
 
 function authChecker(req, res, next) {
-  var token =
+  const token =
     req.body.token ||
     req.query.token ||
-    req.headers['authorization'] ||
+    req.headers.authorization ||
     req.headers['x-access-token']
   if (
     req.originalUrl == '/rest-api/login/' ||
@@ -31,27 +32,22 @@ function authChecker(req, res, next) {
       return res
         .status(401)
         .send({ success: false, message: 'No token provided.' })
-    var split_token = token.split(' ')
+    const split_token = token.split(' ')
     if (split_token[0].toLowerCase() != 'token')
       return res
         .status(401)
         .send({ success: false, message: 'Invalid token header.' })
     if (split_token.length == 1)
-      return res
-        .status(401)
-        .send({
-          success: false,
-          message: 'Invalid token header. No credentials provided.'
-        })
+      return res.status(401).send({
+        success: false,
+        message: 'Invalid token header. No credentials provided.'
+      })
     if (split_token.length > 2)
-      return res
-        .status(401)
-        .send({
-          success: false,
-          message:
-            'Invalid token header. Token string should not contain spaces.'
-        })
-    db.models.User.findOne({ token: split_token[1] }).exec(function(err, user) {
+      return res.status(401).send({
+        success: false,
+        message: 'Invalid token header. Token string should not contain spaces.'
+      })
+    db.models.User.findOne({ token: split_token[1] }).exec((err, user) => {
       if (err || !user)
         return res
           .status(401)
@@ -61,7 +57,7 @@ function authChecker(req, res, next) {
   }
 }
 
-mongoose.connection.once('open', function() {
+mongoose.connection.once('open', () => {
   console.log('Connected to the db.')
 
   // configure app to use bodyParser()
@@ -69,15 +65,15 @@ mongoose.connection.once('open', function() {
   app.use(bodyParser.urlencoded({ extended: true }))
   app.use(bodyParser.json())
   // index
-  app.get('/', function(request, response) {
+  app.get('/', (request, response) => {
     response.redirect('/crudl-rest/')
   })
   // crudl core
   app.use(
     '/crudl/crudl.js',
-    express.static(__dirname + '/../static/crudl/crudl.js')
+    express.static(`${__dirname}/../static/crudl/crudl.js`)
   )
-  app.use('/crudl/', express.static(__dirname + '/../static/crudl/'))
+  app.use('/crudl/', express.static(`${__dirname}/../static/crudl/`))
   app.use('/crudl/crudl.js', (req, res) =>
     res.redirect('http://cdn.crudl.io/static/releases/0.3.0/crudl.min.js')
   )
@@ -89,9 +85,9 @@ mongoose.connection.once('open', function() {
   // crudl-rest
   app.use(
     '/crudl-admin-rest/',
-    express.static(__dirname + '/../crudl-admin-rest/static/')
+    express.static(`${__dirname}/../crudl-admin-rest/static/`)
   )
-  app.get('/crudl-rest/*', function(request, response) {
+  app.get('/crudl-rest/*', (request, response) => {
     response.sendFile(
       path.resolve(__dirname, '../crudl-admin-rest/static/', 'index.html')
     )
@@ -99,9 +95,9 @@ mongoose.connection.once('open', function() {
   // crudl-graphql
   app.use(
     '/crudl-admin-graphql/',
-    express.static(__dirname + '/../crudl-admin-graphql/static/')
+    express.static(`${__dirname}/../crudl-admin-graphql/static/`)
   )
-  app.get('/crudl-graphql/*', function(request, response) {
+  app.get('/crudl-graphql/*', (request, response) => {
     response.sendFile(
       path.resolve(__dirname, '../crudl-admin-graphql/static/', 'index.html')
     )
@@ -120,7 +116,7 @@ mongoose.connection.once('open', function() {
   )
 
   // start server
-  var port = process.env.PORT || 3000
+  const port = process.env.PORT || 3000
   app.listen(port)
-  console.log('Magic happens on port ' + port)
+  console.log(`Magic happens on port ${port}`)
 })

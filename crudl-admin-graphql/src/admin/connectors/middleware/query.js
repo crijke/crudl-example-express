@@ -22,7 +22,7 @@ export default function query(methodName, queryString, pathData, pathError) {
   }
   return function queryMiddleware(next) {
     return {
-      [methodName]: function(req) {
+      [methodName](req) {
         if (!req.resolved && canResolveQuery(queryString, req)) {
           return next[methodName](
             Object.assign(req, {

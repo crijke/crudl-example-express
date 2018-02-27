@@ -10,15 +10,15 @@ const tags = createResourceConnector('tags', tagFields).use(
 const entries = createResourceConnector('entries', '_id')
 
 //-------------------------------------------------------------------
-var listView = {
+const listView = {
   path: 'tags',
   title: 'Tags',
   actions: {
     /* counting the entries requires an additional API call per row. please note that the
         number of entries could be added at the database level, removing this additional call. */
-    list: function(req) {
+    list(req) {
       return tags.read(req).then(res => {
-        let promises = res.map(item =>
+        const promises = res.map(item =>
           entries.read(crudl.req().filter('tags', item._id))
         )
         return Promise.all(promises).then(itemEntries => {
@@ -85,17 +85,17 @@ listView.filters = {
 }
 
 //-------------------------------------------------------------------
-var changeView = {
+const changeView = {
   path: 'tags/:_id',
   title: 'Tag',
   actions: {
-    get: function(req) {
+    get(req) {
       return tags(crudl.path._id).read(req)
     },
-    delete: function(req) {
+    delete(req) {
       return tags(crudl.path._id).delete(req)
     },
-    save: function(req) {
+    save(req) {
       return tags(crudl.path._id).update(req)
     }
   }
@@ -121,12 +121,12 @@ changeView.fields = [
 ]
 
 //-------------------------------------------------------------------
-var addView = {
+const addView = {
   path: 'tags/new',
   title: 'New Tag',
   fields: changeView.fields,
   actions: {
-    add: function(req) {
+    add(req) {
       return tags.create(req)
     }
   }

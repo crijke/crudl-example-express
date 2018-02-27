@@ -25,15 +25,15 @@ const categoryOptions = createOptionsConnector('categories', '_id', 'name')
 const tagsOptions = createOptionsConnector('tags', '_id', 'name')
 
 //-------------------------------------------------------------------
-var listView = {
+const listView = {
   path: 'entries',
   title: 'Blog Entries',
   actions: {
-    list: function(req) {
+    list(req) {
       return entries.read(req).then(res => {
         /* counting the links requires an additional API call per row. please note that the
                 number of links could be added at the database level, removing this additional call. */
-        let promises = res.map(item =>
+        const promises = res.map(item =>
           links.read(crudl.req().filter('entry', item._id))
         )
         return Promise.all(promises).then(entryLinks => {
@@ -160,12 +160,10 @@ listView.filters = {
                     helpText: 'Select a category',
                     ...res
                   }
-                } else {
-                  return {
-                    readOnly: true,
-                    helpText:
-                      'No categories available for the selected section.'
-                  }
+                }
+                return {
+                  readOnly: true,
+                  helpText: 'No categories available for the selected section.'
                 }
               })
           }
@@ -213,18 +211,18 @@ listView.filters = {
 }
 
 //-------------------------------------------------------------------
-var changeView = {
+const changeView = {
   path: 'entries/:_id',
   title: 'Blog Entry',
   tabtitle: 'Main',
   actions: {
-    get: function(req) {
+    get(req) {
       return entries(crudl.path._id).read(req)
     },
-    delete: function(req) {
+    delete(req) {
       return entries(crudl.path._id).delete(req)
     },
-    save: function(req) {
+    save(req) {
       return entries(crudl.path._id).update(req)
     }
   },
@@ -232,14 +230,14 @@ var changeView = {
     get.date = formatStringToDate(get.date)
     return get
   },
-  denormalize: function(data) {
+  denormalize(data) {
     /* prevent unknown field ... with query */
     delete data.updatedate
     delete data.owner
     delete data.createdate
     return data
   },
-  validate: function(values) {
+  validate(values) {
     if (
       (!values.category || values.category == '') &&
       (!values.tags || values.tags.length == 0)
@@ -310,7 +308,7 @@ changeView.fieldsets = [
         field: 'Date',
         required: true,
         initialValue: () => formatDate(new Date()),
-        formatDate: formatDate
+        formatDate
       },
       {
         name: 'sticky',
@@ -346,11 +344,10 @@ changeView.fieldsets = [
         showAll: false,
         helpText: 'Select a tag',
         actions: {
-          search: req => {
-            return tagsOptions
+          search: req =>
+            tagsOptions
               .read(req.filter('name', req.data.query.toLowerCase()))
-              .then(({ options }) => options)
-          },
+              .then(({ options }) => options),
           select: req =>
             Promise.all(
               req.data.selection.map(item =>
@@ -420,13 +417,13 @@ changeView.tabs = [
 ]
 
 //-------------------------------------------------------------------
-var addView = {
+const addView = {
   path: 'entries/new',
   title: 'New Blog Entry',
   fieldsets: changeView.fieldsets,
   validate: changeView.validate,
   actions: {
-    add: function(req) {
+    add(req) {
       return entries.create(req)
     }
   },

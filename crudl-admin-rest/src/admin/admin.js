@@ -1,12 +1,12 @@
 import React from 'react'
 import CustomDashboard from './custom/Dashboard'
 
-var users = require('./views/users')
-var sections = require('./views/sections')
-var categories = require('./views/categories')
-var tags = require('./views/tags')
-var entries = require('./views/entries')
-var { login, logout } = require('./auth')
+const users = require('./views/users')
+const sections = require('./views/sections')
+const categories = require('./views/categories')
+const tags = require('./views/tags')
+const entries = require('./views/entries')
+const { login, logout } = require('./auth')
 
 const OPTIONS = {
   debug: false,
@@ -14,7 +14,7 @@ const OPTIONS = {
   baseURL: '/rest-api/'
 }
 
-var admin = {}
+const admin = {}
 admin.title = 'crudl.io Express REST Example'
 admin.options = OPTIONS
 admin.views = { users, sections, categories, tags, entries }

@@ -10,9 +10,10 @@ import {
 } from 'graphql'
 import { connectionDefinitions } from 'graphql-relay'
 import { EntryType, EntryInputType } from './entry'
-var db = require('../../db')
 
-let EntryLinkType = new GraphQLObjectType({
+const db = require('../../db')
+
+const EntryLinkType = new GraphQLObjectType({
   name: 'Entrylink',
   fields: () => ({
     _id: {
@@ -39,7 +40,7 @@ let EntryLinkType = new GraphQLObjectType({
   })
 })
 
-let EntryLinkInputType = new GraphQLInputObjectType({
+const EntryLinkInputType = new GraphQLInputObjectType({
   name: 'EntryLinkInput',
   fields: () => ({
     _id: {
@@ -66,7 +67,7 @@ let EntryLinkInputType = new GraphQLInputObjectType({
   })
 })
 
-let EntryLinkResultType = new GraphQLObjectType({
+const EntryLinkResultType = new GraphQLObjectType({
   name: 'EntryLinkResult',
   fields: () => ({
     errors: {
@@ -78,7 +79,7 @@ let EntryLinkResultType = new GraphQLObjectType({
   })
 })
 
-let EntryLinkDeleteType = new GraphQLObjectType({
+const EntryLinkDeleteType = new GraphQLObjectType({
   name: 'EntryLinkDelete',
   fields: () => ({
     deleted: {
@@ -109,9 +110,9 @@ const {
 })
 
 module.exports = {
-  EntryLinkListConnection: EntryLinkListConnection,
-  EntryLinkType: EntryLinkType,
-  EntryLinkInputType: EntryLinkInputType,
-  EntryLinkResultType: EntryLinkResultType,
-  EntryLinkDeleteType: EntryLinkDeleteType
+  EntryLinkListConnection,
+  EntryLinkType,
+  EntryLinkInputType,
+  EntryLinkResultType,
+  EntryLinkDeleteType
 }

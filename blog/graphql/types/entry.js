@@ -14,9 +14,10 @@ import { UserType, UserInputType } from './user'
 import { SectionType, SectionInputType } from './section'
 import { CategoryType, CategoryInputType } from './category'
 import { TagType, TagInputType } from './tag'
-var db = require('../../db')
 
-let EntryType = new GraphQLObjectType({
+const db = require('../../db')
+
+const EntryType = new GraphQLObjectType({
   name: 'Entry',
   fields: () => ({
     _id: {
@@ -79,7 +80,7 @@ let EntryType = new GraphQLObjectType({
   })
 })
 
-let EntryInputType = new GraphQLInputObjectType({
+const EntryInputType = new GraphQLInputObjectType({
   name: 'EntryInput',
   fields: () => ({
     _id: {
@@ -121,7 +122,7 @@ let EntryInputType = new GraphQLInputObjectType({
   })
 })
 
-let EntryResultType = new GraphQLObjectType({
+const EntryResultType = new GraphQLObjectType({
   name: 'EntryResult',
   fields: () => ({
     errors: {
@@ -133,7 +134,7 @@ let EntryResultType = new GraphQLObjectType({
   })
 })
 
-let EntryDeleteType = new GraphQLObjectType({
+const EntryDeleteType = new GraphQLObjectType({
   name: 'EntryDelete',
   fields: () => ({
     deleted: {
@@ -164,9 +165,9 @@ const {
 })
 
 module.exports = {
-  EntryListConnection: EntryListConnection,
-  EntryType: EntryType,
-  EntryInputType: EntryInputType,
-  EntryResultType: EntryResultType,
-  EntryDeleteType: EntryDeleteType
+  EntryListConnection,
+  EntryType,
+  EntryInputType,
+  EntryResultType,
+  EntryDeleteType
 }

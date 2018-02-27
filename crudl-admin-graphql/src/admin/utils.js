@@ -3,9 +3,9 @@ import get from 'lodash/get'
 
 //-------------------------------------------------------------------
 export function continuousPagination(res) {
-  let key = Object.keys(res.data.data)[0]
-  let hasNext = res.data.data[key].pageInfo.hasNextPage
-  let next = hasNext && {
+  const key = Object.keys(res.data.data)[0]
+  const hasNext = res.data.data[key].pageInfo.hasNextPage
+  const next = hasNext && {
     after: res.data.data[key].pageInfo.endCursor
   }
   return {
@@ -18,10 +18,8 @@ export function continuousPagination(res) {
 
 //-------------------------------------------------------------------
 function objectToArgs(object) {
-  let args = Object.getOwnPropertyNames(object)
-    .map(name => {
-      return `${name}: ${JSON.stringify(object[name])}`
-    })
+  const args = Object.getOwnPropertyNames(object)
+    .map(name => `${name}: ${JSON.stringify(object[name])}`)
     .join(', ')
   return args ? `(${args})` : ''
 }
@@ -31,7 +29,7 @@ function sorting(req) {
     return {
       orderBy: req.sorting
         .map(field => {
-          let prefix = field.sorted == 'ascending' ? '' : '-'
+          const prefix = field.sorted == 'ascending' ? '' : '-'
           return prefix + field.sortKey
         })
         .join(',')
@@ -45,7 +43,7 @@ export function listQuery(options) {
     options.fields = options.fields.join(', ')
   }
   return req => {
-    let args = objectToArgs(
+    const args = objectToArgs(
       Object.assign({}, options.args, req.page, req.filters, sorting(req))
     )
     return `{
@@ -60,8 +58,8 @@ export function listQuery(options) {
 
 //-------------------------------------------------------------------
 export function join(p1, p2, var1, var2, defaultValue = {}) {
-  return Promise.all([p1, p2]).then(responses => {
-    return responses[0].set(
+  return Promise.all([p1, p2]).then(responses =>
+    responses[0].set(
       'data',
       responses[0].data.map(item => {
         item[var1] = responses[1].data.find(obj => obj[var2] == item[var1])
@@ -71,7 +69,7 @@ export function join(p1, p2, var1, var2, defaultValue = {}) {
         return item
       })
     )
-  })
+  )
 }
 
 // Credits for this function go to https://gist.github.com/mathewbyrne
@@ -94,7 +92,7 @@ export function formatDate(date) {
 }
 
 export function formatStringToDate(dateStr) {
-  let date = new Date(dateStr)
+  const date = new Date(dateStr)
   return date.toJSON().slice(0, 10)
 }
 
@@ -113,7 +111,7 @@ redux-form:
 export function transformErrors(errors) {
   const errorsObj = {}
   if (errors !== null && Array === errors.constructor) {
-    for (let i = 0; i < errors.length - 1; i = i + 2) {
+    for (let i = 0; i < errors.length - 1; i += 2) {
       const name = errors[i] === '__all__' ? '_error' : errors[i]
       errorsObj[name] = errors[i + 1]
     }

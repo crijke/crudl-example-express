@@ -8,11 +8,11 @@ const userFields =
 const users = createResourceConnector('users', userFields)
 
 //-------------------------------------------------------------------
-var listView = {
+const listView = {
   path: 'users',
   title: 'Users',
   actions: {
-    list: function(req) {
+    list(req) {
       return users.read(req)
     }
   },
@@ -70,19 +70,19 @@ listView.fields = [
 ]
 
 //-------------------------------------------------------------------
-var changeView = {
+const changeView = {
   path: 'users/:_id',
   title: 'User',
   actions: {
-    get: function(req) {
+    get(req) {
       return users(crudl.path._id).read(req)
     },
-    save: function(req) {
+    save(req) {
       return users(crudl.path._id).update(req)
     }
   },
   normalize: get => {
-    let date = new Date(get.date_joined)
+    const date = new Date(get.date_joined)
     get.date_joined = date.toJSON()
     return get
   },
@@ -167,11 +167,11 @@ changeView.fieldsets = [
         readOnly: true,
         field: SplitDateTimeField,
         getTime: date => {
-          let T = date.indexOf('T')
+          const T = date.indexOf('T')
           return date.slice(T + 1, T + 6)
         },
         getDate: date => {
-          let T = date.indexOf('T')
+          const T = date.indexOf('T')
           return date.slice(0, T)
         }
       }
@@ -205,12 +205,12 @@ changeView.fieldsets = [
 ]
 
 //-------------------------------------------------------------------
-var addView = {
+const addView = {
   path: 'users/new',
   title: 'New User',
   denormalize: changeView.denormalize,
   actions: {
-    add: function(req) {
+    add(req) {
       return users.create(req)
     }
   }

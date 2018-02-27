@@ -7,11 +7,11 @@ const users = list('users')
 const user = detail('users')
 
 //-------------------------------------------------------------------
-var listView = {
+const listView = {
   path: 'users',
   title: 'Users',
   actions: {
-    list: function(req) {
+    list(req) {
       return users.read(req)
       // return users.read(req.filter('_id', crudl.auth.user))
     }
@@ -70,14 +70,14 @@ listView.fields = [
 ]
 
 //-------------------------------------------------------------------
-var changeView = {
+const changeView = {
   path: 'users/:_id',
   title: 'User',
   actions: {
-    get: function(req) {
+    get(req) {
       return user(crudl.path._id).read(req)
     },
-    save: function(req) {
+    save(req) {
       return user(crudl.path._id).update(req)
     }
   }
@@ -156,11 +156,11 @@ changeView.fieldsets = [
         readOnly: true,
         field: SplitDateTimeField,
         getTime: date => {
-          let T = date.indexOf('T')
+          const T = date.indexOf('T')
           return date.slice(T + 1, T + 6)
         },
         getDate: date => {
-          let T = date.indexOf('T')
+          const T = date.indexOf('T')
           return date.slice(0, T)
         }
       }
@@ -194,11 +194,11 @@ changeView.fieldsets = [
 ]
 
 //-------------------------------------------------------------------
-var addView = {
+const addView = {
   path: 'users/new',
   title: 'New User',
   actions: {
-    add: function(req) {
+    add(req) {
       return users.create(req)
     }
   }

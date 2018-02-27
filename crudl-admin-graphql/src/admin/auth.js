@@ -1,7 +1,7 @@
 import { login as loginConnector } from './connectors'
 
 //-------------------------------------------------------------------
-var login = {
+const login = {
   actions: {
     login: loginConnector.create
   }

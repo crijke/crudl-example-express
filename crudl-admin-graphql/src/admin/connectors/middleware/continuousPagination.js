@@ -1,6 +1,6 @@
 function getInfo(data) {
-  let hasNext = data.pageInfo.hasNextPage
-  let next = hasNext && {
+  const hasNext = data.pageInfo.hasNextPage
+  const next = hasNext && {
     after: data.pageInfo.endCursor
   }
   return {
@@ -14,7 +14,7 @@ function getInfo(data) {
 export default function continuousPagination(first = 20) {
   return function continuousPaginationMiddleware(next) {
     return {
-      read: function(req) {
+      read(req) {
         req.args = { first }
         return next.read(req).then(res => {
           if (res.pagination) {

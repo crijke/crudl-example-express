@@ -3,9 +3,9 @@ import get from 'lodash/get'
 
 //-------------------------------------------------------------------
 export function continuousPagination(res) {
-  let nextPage = undefined
-  let resultsTotal = undefined
-  let filteredTotal = undefined
+  let nextPage
+  let resultsTotal
+  let filteredTotal
   if (res.data.page < res.data.pages) {
     nextPage = res.data.page + 1
   }
@@ -26,23 +26,23 @@ export function continuousPagination(res) {
 
 export function numberedPagination(res) {
   // total number of results
-  let resultsTotal = res.data.counter
+  const resultsTotal = res.data.counter
   // total number of filtered results
-  let filteredTotal = res.data.total
+  const filteredTotal = res.data.total
   // current page
-  let currentPage = res.data.page
+  const currentPage = res.data.page
   // total pages
-  let pagesTotal = res.data.pages
+  const pagesTotal = res.data.pages
 
   // next page as number
-  let nextPage = currentPage > pagesTotal ? currentPage + 1 : null
+  const nextPage = currentPage > pagesTotal ? currentPage + 1 : null
   // previous page as number
-  let previousPage = currentPage > 1 ? currentPage - 1 : null
+  const previousPage = currentPage > 1 ? currentPage - 1 : null
   // the page size
-  let pageSize = res.data.docs.length
+  const pageSize = res.data.docs.length
 
   // Compute all page cursors
-  let allPages = []
+  const allPages = []
   for (let i = 0; i < pagesTotal; i++) {
     allPages[i] = `${i + 1}` // We return string, so that the page will be preserved in the path query
   }
@@ -61,7 +61,7 @@ export function urlQuery(req) {
   return Object.assign({}, req.filters, req.page && { page: req.page }, {
     ordering: req.sorting
       .map(field => {
-        let prefix = field.sorted == 'ascending' ? '' : '-'
+        const prefix = field.sorted == 'ascending' ? '' : '-'
         return prefix + field.sortKey
       })
       .join(',')
@@ -70,15 +70,15 @@ export function urlQuery(req) {
 
 //-------------------------------------------------------------------
 export function join(p1, p2, var1, var2) {
-  return Promise.all([p1, p2]).then(responses => {
-    return responses[0].set(
+  return Promise.all([p1, p2]).then(responses =>
+    responses[0].set(
       'data',
       responses[0].data.map(item => {
         item[var1] = responses[1].data.find(obj => obj[var2] == item[var1])
         return item
       })
     )
-  })
+  )
 }
 
 // Credits for this function go to https://gist.github.com/mathewbyrne
@@ -101,7 +101,7 @@ export function formatDate(date) {
 }
 
 export function formatStringToDate(dateStr) {
-  let date = new Date(dateStr)
+  const date = new Date(dateStr)
   return date.toJSON().slice(0, 10)
 }
 

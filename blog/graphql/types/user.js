@@ -10,7 +10,7 @@ import {
 } from 'graphql'
 import { connectionDefinitions } from 'graphql-relay'
 
-let UserType = new GraphQLObjectType({
+const UserType = new GraphQLObjectType({
   name: 'User',
   fields: () => ({
     _id: {
@@ -40,7 +40,7 @@ let UserType = new GraphQLObjectType({
   })
 })
 
-let UserInputType = new GraphQLInputObjectType({
+const UserInputType = new GraphQLInputObjectType({
   name: 'UserInput',
   fields: () => ({
     _id: {
@@ -73,7 +73,7 @@ let UserInputType = new GraphQLInputObjectType({
   })
 })
 
-let UserResultType = new GraphQLObjectType({
+const UserResultType = new GraphQLObjectType({
   name: 'UserResult',
   fields: () => ({
     errors: {
@@ -85,7 +85,7 @@ let UserResultType = new GraphQLObjectType({
   })
 })
 
-let UserDeleteType = new GraphQLObjectType({
+const UserDeleteType = new GraphQLObjectType({
   name: 'UserDelete',
   fields: () => ({
     deleted: {
@@ -116,9 +116,9 @@ const {
 })
 
 module.exports = {
-  UserListConnection: UserListConnection,
-  UserType: UserType,
-  UserInputType: UserInputType,
-  UserResultType: UserResultType,
-  UserDeleteType: UserDeleteType
+  UserListConnection,
+  UserType,
+  UserInputType,
+  UserResultType,
+  UserDeleteType
 }

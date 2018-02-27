@@ -10,7 +10,7 @@ import {
 } from 'graphql'
 import { connectionDefinitions } from 'graphql-relay'
 
-let SectionType = new GraphQLObjectType({
+const SectionType = new GraphQLObjectType({
   name: 'Section',
   fields: () => ({
     _id: {
@@ -28,7 +28,7 @@ let SectionType = new GraphQLObjectType({
   })
 })
 
-let SectionInputType = new GraphQLInputObjectType({
+const SectionInputType = new GraphQLInputObjectType({
   name: 'SectionInput',
   fields: () => ({
     _id: {
@@ -49,7 +49,7 @@ let SectionInputType = new GraphQLInputObjectType({
   })
 })
 
-let SectionResultType = new GraphQLObjectType({
+const SectionResultType = new GraphQLObjectType({
   name: 'SectionResult',
   fields: () => ({
     errors: {
@@ -61,7 +61,7 @@ let SectionResultType = new GraphQLObjectType({
   })
 })
 
-let SectionDeleteType = new GraphQLObjectType({
+const SectionDeleteType = new GraphQLObjectType({
   name: 'SectionDelete',
   fields: () => ({
     deleted: {
@@ -92,9 +92,9 @@ const {
 })
 
 module.exports = {
-  SectionListConnection: SectionListConnection,
-  SectionType: SectionType,
-  SectionInputType: SectionInputType,
-  SectionResultType: SectionResultType,
-  SectionDeleteType: SectionDeleteType
+  SectionListConnection,
+  SectionType,
+  SectionInputType,
+  SectionResultType,
+  SectionDeleteType
 }

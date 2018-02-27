@@ -3,7 +3,7 @@ export default function crudlErrors(next) {
   function processError(error) {
     const errorObj = {}
     if (typeof error === 'object' && error.length) {
-      for (let i = 0; i < error.length - 1; i = i + 2) {
+      for (let i = 0; i < error.length - 1; i += 2) {
         const name = error[i] === '__all__' ? '_error' : error[i]
         errorObj[name] = error[i + 1]
       }

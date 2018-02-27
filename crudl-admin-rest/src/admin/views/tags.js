@@ -7,17 +7,17 @@ const tag = detail('tags') // Partial parametrization of a detail connector: the
 const entries = list('entries')
 
 //-------------------------------------------------------------------
-var listView = {
+const listView = {
   path: 'tags',
   title: 'Tags',
   actions: {
     /* counting the entries requires an additional API call per row. please note that the
         number of entries could be added at the database level, removing this additional call. */
-    list: function(req) {
+    list(req) {
       return tags.read(req).then(res => {
         // The result of the following line is an array of promises, where each promise resolves
         // to an array of entries associated with the item
-        let promises = res.map(item =>
+        const promises = res.map(item =>
           entries.read(crudl.req().filter('tags', item._id))
         )
         // We return a single promise that synchronizes on all the promises created in the previous step
@@ -89,17 +89,17 @@ listView.filters = {
 }
 
 //-------------------------------------------------------------------
-var changeView = {
+const changeView = {
   path: 'tags/:_id',
   title: 'Tag',
   actions: {
-    get: function(req) {
+    get(req) {
       return tag(crudl.path._id).read(req)
     },
-    delete: function(req) {
+    delete(req) {
       return tag(crudl.path._id).delete(req)
     },
-    save: function(req) {
+    save(req) {
       return tag(crudl.path._id).update(req)
     }
   }
@@ -125,12 +125,12 @@ changeView.fields = [
 ]
 
 //-------------------------------------------------------------------
-var addView = {
+const addView = {
   path: 'tags/new',
   title: 'New Tag',
   fields: changeView.fields,
   actions: {
-    add: function(req) {
+    add(req) {
       return tags.create(req)
     }
   }

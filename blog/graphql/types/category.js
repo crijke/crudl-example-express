@@ -10,9 +10,10 @@ import {
 } from 'graphql'
 import { connectionDefinitions } from 'graphql-relay'
 import { SectionType, SectionInputType } from './section'
-var db = require('../../db')
 
-let CategoryType = new GraphQLObjectType({
+const db = require('../../db')
+
+const CategoryType = new GraphQLObjectType({
   name: 'Category',
   fields: () => ({
     _id: {
@@ -36,7 +37,7 @@ let CategoryType = new GraphQLObjectType({
   })
 })
 
-let CategoryInputType = new GraphQLInputObjectType({
+const CategoryInputType = new GraphQLInputObjectType({
   name: 'CategoryInput',
   fields: () => ({
     _id: {
@@ -60,7 +61,7 @@ let CategoryInputType = new GraphQLInputObjectType({
   })
 })
 
-let CategoryResultType = new GraphQLObjectType({
+const CategoryResultType = new GraphQLObjectType({
   name: 'CategoryResult',
   fields: () => ({
     errors: {
@@ -72,7 +73,7 @@ let CategoryResultType = new GraphQLObjectType({
   })
 })
 
-let CategoryDeleteType = new GraphQLObjectType({
+const CategoryDeleteType = new GraphQLObjectType({
   name: 'CategoryDelete',
   fields: () => ({
     deleted: {
@@ -103,9 +104,9 @@ const {
 })
 
 module.exports = {
-  CategoryListConnection: CategoryListConnection,
-  CategoryType: CategoryType,
-  CategoryInputType: CategoryInputType,
-  CategoryResultType: CategoryResultType,
-  CategoryDeleteType: CategoryDeleteType
+  CategoryListConnection,
+  CategoryType,
+  CategoryInputType,
+  CategoryResultType,
+  CategoryDeleteType
 }

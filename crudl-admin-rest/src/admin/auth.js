@@ -1,10 +1,10 @@
 import { login as loginConnector } from './connectors'
 //-------------------------------------------------------------------
-var login = {
+const login = {
   // path: 'login', // optional
   // title: 'Login', // optional
   actions: {
-    login: function(req) {
+    login(req) {
       return loginConnector.create(req)
     }
   }

@@ -1,8 +1,6 @@
 function buildArgs(object) {
-  let args = Object.getOwnPropertyNames(object)
-    .map(name => {
-      return `${name}: ${JSON.stringify(object[name])}`
-    })
+  const args = Object.getOwnPropertyNames(object)
+    .map(name => `${name}: ${JSON.stringify(object[name])}`)
     .join(', ')
   return args ? `(${args})` : ''
 }
@@ -12,7 +10,7 @@ function buildOrderBy(req) {
     return {
       orderBy: req.sorting
         .map(field => {
-          let prefix = field.sorted === 'ascending' ? '' : '-'
+          const prefix = field.sorted === 'ascending' ? '' : '-'
           return prefix + field.sortKey
         })
         .join(',')
@@ -26,7 +24,7 @@ function buildQueryString(req, options) {
     options.fields = options.fields.join(', ')
   }
 
-  let args = buildArgs(
+  const args = buildArgs(
     Object.assign(
       {},
       options.args,
@@ -62,7 +60,7 @@ export default function listQuery(namePl, fields, args) {
 
   return function listQueryMiddleware(next) {
     return {
-      read: function(req) {
+      read(req) {
         if (req.resolved) {
           return next.read(req)
         }

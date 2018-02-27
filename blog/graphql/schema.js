@@ -58,8 +58,10 @@ import {
   EntryLinkResultType,
   EntryLinkDeleteType
 } from './types/entrylink'
-var paginate = require('express-paginate')
-var mongoose = require('mongoose')
+
+const paginate = require('express-paginate')
+const mongoose = require('mongoose')
+
 import db from '../db'
 
 // Credits for this function go to https://gist.github.com/mathewbyrne
@@ -73,9 +75,8 @@ function slugify(text) {
       .replace(/\-\-+/g, '-') // Replace multiple - with single -
       .replace(/^-+/, '') // Trim - from start of text
       .replace(/-+$/, '') // Trim - from end of text
-  } else {
-    return ''
   }
+  return ''
 }
 
 function getErrors(err) {
@@ -91,9 +92,9 @@ function getErrors(err) {
   }
   return errors
 }
-let nores = null
+const nores = null
 
-let schema = new GraphQLSchema({
+const schema = new GraphQLSchema({
   query: new GraphQLObjectType({
     name: 'Query',
     fields: () => ({
@@ -109,13 +110,11 @@ let schema = new GraphQLSchema({
           if (args.orderBy) {
             sort = args.orderBy.replace(/,/g, ' ')
           }
-          let counter = db.models.User.count({}).exec(function(err, count) {
-            return count
-          })
+          const counter = db.models.User.count({}).exec((err, count) => count)
           return db.models.User.find(query)
             .sort(sort)
-            .then(function(result) {
-              let res = connectionFromArray(result, args)
+            .then(result => {
+              const res = connectionFromArray(result, args)
               res.filteredCount = result.length
               res.totalCount = counter
               return res
@@ -137,7 +136,7 @@ let schema = new GraphQLSchema({
         resolve: (root, { ...args }) => {
           const query = {}
           let sort = 'slug'
-          let idlist = []
+          const idlist = []
           if (args.orderBy) {
             sort = args.orderBy.replace(/,/g, ' ')
           }
@@ -145,15 +144,15 @@ let schema = new GraphQLSchema({
             args.idIn.split(',').map((item, index) => {
               idlist.push(mongoose.Types.ObjectId(item))
             })
-            query['_id'] = { $in: idlist }
+            query._id = { $in: idlist }
           }
-          let counter = db.models.Section.count({}).exec(function(err, count) {
-            return count
-          })
+          const counter = db.models.Section.count({}).exec(
+            (err, count) => count
+          )
           return db.models.Section.find(query)
             .sort(sort)
-            .then(function(result) {
-              let res = connectionFromArray(result, args)
+            .then(result => {
+              const res = connectionFromArray(result, args)
               res.filteredCount = result.length
               res.totalCount = counter
               return res
@@ -178,32 +177,32 @@ let schema = new GraphQLSchema({
         resolve: (root, { ...args }) => {
           const query = {}
           let sort = 'slug'
-          let idlist = []
+          const idlist = []
           if (args.orderBy) {
             sort = args.orderBy.replace(/,/g, ' ')
           }
           if (args.section) {
-            query['section'] = { $eq: args.section }
+            query.section = { $eq: args.section }
           }
           if (args.name) {
-            query['name'] = { $regex: args.name, $options: 'i' }
+            query.name = { $regex: args.name, $options: 'i' }
           }
           if (args.search) {
-            query['name'] = { $regex: args.search, $options: 'i' }
+            query.name = { $regex: args.search, $options: 'i' }
           }
           if (args.idIn) {
             args.idIn.split(',').map((item, index) => {
               idlist.push(mongoose.Types.ObjectId(item))
             })
-            query['_id'] = { $in: idlist }
+            query._id = { $in: idlist }
           }
-          let counter = db.models.Category.count({}).exec(function(err, count) {
-            return count
-          })
+          const counter = db.models.Category.count({}).exec(
+            (err, count) => count
+          )
           return db.models.Category.find(query)
             .sort(sort)
-            .then(function(result) {
-              let res = connectionFromArray(result, args)
+            .then(result => {
+              const res = connectionFromArray(result, args)
               res.filteredCount = result.length
               res.totalCount = counter
               return res
@@ -226,26 +225,24 @@ let schema = new GraphQLSchema({
         resolve: (root, { ...args }) => {
           const query = {}
           let sort = 'slug'
-          let idlist = []
+          const idlist = []
           if (args.orderBy) {
             sort = args.orderBy.replace(/,/g, ' ')
           }
           if (args.name) {
-            query['name'] = { $regex: args.name, $options: 'i' }
+            query.name = { $regex: args.name, $options: 'i' }
           }
           if (args.idIn) {
             args.idIn.split(',').map((item, index) => {
               idlist.push(mongoose.Types.ObjectId(item))
             })
-            query['_id'] = { $in: idlist }
+            query._id = { $in: idlist }
           }
-          let counter = db.models.Tag.count({}).exec(function(err, count) {
-            return count
-          })
+          const counter = db.models.Tag.count({}).exec((err, count) => count)
           return db.models.Tag.find(query)
             .sort(sort)
-            .then(function(result) {
-              let res = connectionFromArray(result, args)
+            .then(result => {
+              const res = connectionFromArray(result, args)
               res.filteredCount = result.length
               res.totalCount = counter
               return res
@@ -280,42 +277,40 @@ let schema = new GraphQLSchema({
             sort = args.orderBy.replace(/,/g, ' ')
           }
           if (args.title) {
-            query['title'] = { $regex: args.title, $options: 'i' }
+            query.title = { $regex: args.title, $options: 'i' }
           }
           if (args.status) {
-            query['status'] = { $eq: args.status }
+            query.status = { $eq: args.status }
           }
           if (args.date_gt) {
-            query['date'] = { $gt: args.date_gt }
+            query.date = { $gt: args.date_gt }
           }
           if (args.sticky) {
-            query['sticky'] = { $eq: args.sticky }
+            query.sticky = { $eq: args.sticky }
           }
           if (args.section) {
-            query['section'] = { $eq: args.section }
+            query.section = { $eq: args.section }
           }
           if (args.category) {
-            query['category'] = { $eq: args.category }
+            query.category = { $eq: args.category }
           }
           if (args.tags) {
-            query['tags'] = { $in: [args.tags] }
+            query.tags = { $in: [args.tags] }
           }
           if (args.owner) {
-            query['owner'] = { $eq: args.owner }
+            query.owner = { $eq: args.owner }
           }
           if (args.search) {
-            query['title'] = { $regex: args.search, $options: 'i' }
+            query.title = { $regex: args.search, $options: 'i' }
           }
           if (args.search_summary) {
-            query['summary'] = { $regex: args.search_summary, $options: 'i' }
+            query.summary = { $regex: args.search_summary, $options: 'i' }
           }
-          let counter = db.models.Entry.count({}).exec(function(err, count) {
-            return count
-          })
+          const counter = db.models.Entry.count({}).exec((err, count) => count)
           return db.models.Entry.find(query)
             .sort(sort)
-            .then(function(result) {
-              let res = connectionFromArray(result, args)
+            .then(result => {
+              const res = connectionFromArray(result, args)
               res.filteredCount = result.length
               res.totalCount = counter
               return res
@@ -341,18 +336,15 @@ let schema = new GraphQLSchema({
             sort = args.orderBy.replace(/,/g, ' ')
           }
           if (args.entry) {
-            query['entry'] = { $eq: args.entry }
+            query.entry = { $eq: args.entry }
           }
-          let counter = db.models.EntryLink.count({}).exec(function(
-            err,
-            count
-          ) {
-            return count
-          })
+          const counter = db.models.EntryLink.count({}).exec(
+            (err, count) => count
+          )
           return db.models.EntryLink.find(query)
             .sort(sort)
-            .then(function(result) {
-              let res = connectionFromArray(result, args)
+            .then(result => {
+              const res = connectionFromArray(result, args)
               res.filteredCount = result.length
               res.totalCount = counter
               return res
@@ -374,44 +366,9 @@ let schema = new GraphQLSchema({
         args: {
           data: { name: 'data', type: new GraphQLNonNull(UserInputType) }
         },
-        resolve: (root, { data }) => {
-          return db.models.User.findOne({ username: data.username }).then(
-            function(user) {
-              let errors = []
-              if (user) {
-                if (user.username == data.username)
-                  errors.push(
-                    'username',
-                    'A user with that username already exists.'
-                  )
-                return { errors, nores }
-              } else {
-                return db.models.User.create(data).then(
-                  function(object) {
-                    return { nores, user: object }
-                  },
-                  function(err) {
-                    let errors = getErrors(err)
-                    return { errors, nores }
-                  }
-                )
-              }
-            }
-          )
-        }
-      },
-      changeUser: {
-        type: UserResultType,
-        args: {
-          id: { name: 'id', type: new GraphQLNonNull(GraphQLID) },
-          data: { name: 'data', type: new GraphQLNonNull(UserInputType) }
-        },
-        resolve: (root, { id, data }) => {
-          return db.models.User.findOne({
-            username: data.username,
-            _id: { $ne: id }
-          }).then(function(user) {
-            let errors = []
+        resolve: (root, { data }) =>
+          db.models.User.findOne({ username: data.username }).then(user => {
+            const errors = []
             if (user) {
               if (user.username == data.username)
                 errors.push(
@@ -419,40 +376,64 @@ let schema = new GraphQLSchema({
                   'A user with that username already exists.'
                 )
               return { errors, nores }
-            } else {
-              /* We use findById instead of findByIdAndUpdate in order for the pre save functions to work */
-              return db.models.User.findById(id)
-                .exec()
-                .then(function(object) {
-                  if (data.username != undefined)
-                    object.username = data.username
-                  if (data.password != undefined)
-                    object.password = data.password
-                  if (data.first_name != undefined)
-                    object.first_name = data.first_name
-                  if (data.last_name != undefined)
-                    object.last_name = data.last_name
-                  if (data.email != undefined) object.email = data.email
-                  if (data.is_staff != undefined)
-                    object.is_staff = data.is_staff
-                  if (data.is_active != undefined)
-                    object.is_active = data.is_active
-                  return object.save()
-                })
-                .then(
-                  function(object) {
-                    /* remove password from response. otherwise, the field is getting populated */
-                    object.password = null
-                    return { nores, user: object }
-                  },
-                  function(err) {
-                    let errors = getErrors(err)
-                    return { errors, nores }
-                  }
-                )
             }
+            return db.models.User.create(data).then(
+              object => ({ nores, user: object }),
+              err => {
+                const errors = getErrors(err)
+                return { errors, nores }
+              }
+            )
           })
-        }
+      },
+      changeUser: {
+        type: UserResultType,
+        args: {
+          id: { name: 'id', type: new GraphQLNonNull(GraphQLID) },
+          data: { name: 'data', type: new GraphQLNonNull(UserInputType) }
+        },
+        resolve: (root, { id, data }) =>
+          db.models.User.findOne({
+            username: data.username,
+            _id: { $ne: id }
+          }).then(user => {
+            const errors = []
+            if (user) {
+              if (user.username == data.username)
+                errors.push(
+                  'username',
+                  'A user with that username already exists.'
+                )
+              return { errors, nores }
+            }
+            /* We use findById instead of findByIdAndUpdate in order for the pre save functions to work */
+            return db.models.User.findById(id)
+              .exec()
+              .then(object => {
+                if (data.username != undefined) object.username = data.username
+                if (data.password != undefined) object.password = data.password
+                if (data.first_name != undefined)
+                  object.first_name = data.first_name
+                if (data.last_name != undefined)
+                  object.last_name = data.last_name
+                if (data.email != undefined) object.email = data.email
+                if (data.is_staff != undefined) object.is_staff = data.is_staff
+                if (data.is_active != undefined)
+                  object.is_active = data.is_active
+                return object.save()
+              })
+              .then(
+                object => {
+                  /* remove password from response. otherwise, the field is getting populated */
+                  object.password = null
+                  return { nores, user: object }
+                },
+                err => {
+                  const errors = getErrors(err)
+                  return { errors, nores }
+                }
+              )
+          })
       },
       addSection: {
         type: SectionResultType,
@@ -467,25 +448,22 @@ let schema = new GraphQLSchema({
           }
           return db.models.Section.findOne({
             $or: [{ name: data.name }, { slug: data.slug }]
-          }).then(function(section) {
-            let errors = []
+          }).then(section => {
+            const errors = []
             if (section) {
               if (section.name == data.name)
                 errors.push('name', 'A section with that name already exists.')
               if (section.slug == data.slug)
                 errors.push('slug', 'A section with that slug already exists.')
               return { errors, nores }
-            } else {
-              return db.models.Section.create(data).then(
-                function(object) {
-                  return { nores, section: object }
-                },
-                function(err) {
-                  let errors = getErrors(err)
-                  return { errors, nores }
-                }
-              )
             }
+            return db.models.Section.create(data).then(
+              object => ({ nores, section: object }),
+              err => {
+                const errors = getErrors(err)
+                return { errors, nores }
+              }
+            )
           })
         }
       },
@@ -504,7 +482,7 @@ let schema = new GraphQLSchema({
           return db.models.Section.findOne({
             $or: [{ name: data.name }, { slug: data.slug }],
             _id: { $ne: id }
-          }).then(function(section) {
+          }).then(section => {
             let errors = []
             if (section) {
               if (section.name == data.name)
@@ -512,36 +490,28 @@ let schema = new GraphQLSchema({
               if (section.slug == data.slug)
                 errors.push('slug', 'A section with that slug already exists.')
               return { errors, nores }
-            } else {
-              return db.models.Section.findByIdAndUpdate(id, data, {
-                runValidators: true,
-                new: true
-              }).then(
-                function(object) {
-                  return { nores, section: object }
-                },
-                function(err) {
-                  errors = getErrors(err)
-                  return { errors, nores }
-                }
-              )
             }
+            return db.models.Section.findByIdAndUpdate(id, data, {
+              runValidators: true,
+              new: true
+            }).then(
+              object => ({ nores, section: object }),
+              err => {
+                errors = getErrors(err)
+                return { errors, nores }
+              }
+            )
           })
         }
       },
       deleteSection: {
         type: SectionDeleteType,
         args: { id: { name: 'id', type: new GraphQLNonNull(GraphQLID) } },
-        resolve: (root, { id }) => {
-          return db.models.Section.findByIdAndRemove(id).then(
-            function(object) {
-              return { deleted: true, section: object }
-            },
-            function(err) {
-              return { deleted: false, section: object }
-            }
+        resolve: (root, { id }) =>
+          db.models.Section.findByIdAndRemove(id).then(
+            object => ({ deleted: true, section: object }),
+            err => ({ deleted: false, section: object })
           )
-        }
       },
       addCategory: {
         type: CategoryResultType,
@@ -555,11 +525,9 @@ let schema = new GraphQLSchema({
             data.slug = data.slug.toLowerCase()
           }
           return db.models.Category.create(data).then(
-            function(object) {
-              return { nores, category: object }
-            },
-            function(err) {
-              let errors = getErrors(err)
+            object => ({ nores, category: object }),
+            err => {
+              const errors = getErrors(err)
               return { errors, nores }
             }
           )
@@ -581,11 +549,9 @@ let schema = new GraphQLSchema({
             runValidators: true,
             new: true
           }).then(
-            function(object) {
-              return { nores, category: object }
-            },
-            function(err) {
-              let errors = getErrors(err)
+            object => ({ nores, category: object }),
+            err => {
+              const errors = getErrors(err)
               return { errors, nores }
             }
           )
@@ -594,42 +560,33 @@ let schema = new GraphQLSchema({
       deleteCategory: {
         type: CategoryDeleteType,
         args: { id: { name: 'id', type: new GraphQLNonNull(GraphQLID) } },
-        resolve: (root, { id }) => {
-          return db.models.Category.findByIdAndRemove(id).then(
-            function(object) {
-              return { deleted: true, category: object }
-            },
-            function(err) {
-              return { deleted: false, category: object }
-            }
+        resolve: (root, { id }) =>
+          db.models.Category.findByIdAndRemove(id).then(
+            object => ({ deleted: true, category: object }),
+            err => ({ deleted: false, category: object })
           )
-        }
       },
       addTag: {
         type: TagResultType,
         args: {
           data: { name: 'data', type: new GraphQLNonNull(TagInputType) }
         },
-        resolve: (root, { data }) => {
-          return db.models.Tag.findOne({ name: data.name }).then(function(tag) {
-            let errors = []
+        resolve: (root, { data }) =>
+          db.models.Tag.findOne({ name: data.name }).then(tag => {
+            const errors = []
             if (tag) {
               if (tag.name == data.name)
                 errors.push('name', 'A tag with that name already exists.')
               return { errors, nores }
-            } else {
-              return db.models.Tag.create(data).then(
-                function(object) {
-                  return { nores, tag: object }
-                },
-                function(err) {
-                  let errors = getErrors(err)
-                  return { errors, nores }
-                }
-              )
             }
+            return db.models.Tag.create(data).then(
+              object => ({ nores, tag: object }),
+              err => {
+                const errors = getErrors(err)
+                return { errors, nores }
+              }
+            )
           })
-        }
       },
       changeTag: {
         type: TagResultType,
@@ -637,46 +594,37 @@ let schema = new GraphQLSchema({
           id: { name: 'id', type: new GraphQLNonNull(GraphQLID) },
           data: { name: 'data', type: new GraphQLNonNull(TagInputType) }
         },
-        resolve: (root, { id, data }) => {
-          return db.models.Tag.findOne({
+        resolve: (root, { id, data }) =>
+          db.models.Tag.findOne({
             name: data.name,
             _id: { $ne: id }
-          }).then(function(tag) {
-            let errors = []
+          }).then(tag => {
+            const errors = []
             if (tag) {
               if (tag.name == data.name)
                 errors.push('name', 'A tag with that name already exists.')
               return { errors, nores }
-            } else {
-              return db.models.Tag.findByIdAndUpdate(id, data, {
-                runValidators: true,
-                new: true
-              }).then(
-                function(object) {
-                  return { nores, tag: object }
-                },
-                function(err) {
-                  let errors = getErrors(err)
-                  return { errors, nores }
-                }
-              )
             }
+            return db.models.Tag.findByIdAndUpdate(id, data, {
+              runValidators: true,
+              new: true
+            }).then(
+              object => ({ nores, tag: object }),
+              err => {
+                const errors = getErrors(err)
+                return { errors, nores }
+              }
+            )
           })
-        }
       },
       deleteTag: {
         type: TagDeleteType,
         args: { id: { name: 'id', type: new GraphQLNonNull(GraphQLID) } },
-        resolve: (root, { id }) => {
-          return db.models.Tag.findByIdAndRemove(id).then(
-            function(object) {
-              return { deleted: true, tag: object }
-            },
-            function(err) {
-              return { deleted: false, tag: object }
-            }
+        resolve: (root, { id }) =>
+          db.models.Tag.findByIdAndRemove(id).then(
+            object => ({ deleted: true, tag: object }),
+            err => ({ deleted: false, tag: object })
           )
-        }
       },
       addEntry: {
         type: EntryResultType,
@@ -687,11 +635,9 @@ let schema = new GraphQLSchema({
           /* prevent Cast to ObjectID failed for ... */
           if (data.category == '') data.category = null
           return db.models.Entry.create(data).then(
-            function(object) {
-              return { nores, entry: object }
-            },
-            function(err) {
-              let errors = getErrors(err)
+            object => ({ nores, entry: object }),
+            err => {
+              const errors = getErrors(err)
               return { errors, nores }
             }
           )
@@ -712,11 +658,9 @@ let schema = new GraphQLSchema({
             runValidators: true,
             new: true
           }).then(
-            function(object) {
-              return { nores, entry: object }
-            },
-            function(err) {
-              let errors = getErrors(err)
+            object => ({ nores, entry: object }),
+            err => {
+              const errors = getErrors(err)
               return { errors, nores }
             }
           )
@@ -725,33 +669,25 @@ let schema = new GraphQLSchema({
       deleteEntry: {
         type: EntryDeleteType,
         args: { id: { name: 'id', type: new GraphQLNonNull(GraphQLID) } },
-        resolve: (root, { id }) => {
-          return db.models.Entry.findByIdAndRemove(id).then(
-            function(object) {
-              return { deleted: true, entry: object }
-            },
-            function(err) {
-              return { deleted: false, entry: object }
-            }
+        resolve: (root, { id }) =>
+          db.models.Entry.findByIdAndRemove(id).then(
+            object => ({ deleted: true, entry: object }),
+            err => ({ deleted: false, entry: object })
           )
-        }
       },
       addEntryLink: {
         type: EntryLinkResultType,
         args: {
           data: { name: 'data', type: new GraphQLNonNull(EntryLinkInputType) }
         },
-        resolve: (root, { data }) => {
-          return db.models.EntryLink.create(data).then(
-            function(object) {
-              return { nores, entryLink: object }
-            },
-            function(err) {
-              let errors = getErrors(err)
+        resolve: (root, { data }) =>
+          db.models.EntryLink.create(data).then(
+            object => ({ nores, entryLink: object }),
+            err => {
+              const errors = getErrors(err)
               return { errors, nores }
             }
           )
-        }
       },
       changeEntryLink: {
         type: EntryLinkResultType,
@@ -759,34 +695,26 @@ let schema = new GraphQLSchema({
           id: { name: 'id', type: new GraphQLNonNull(GraphQLID) },
           data: { name: 'data', type: new GraphQLNonNull(EntryLinkInputType) }
         },
-        resolve: (root, { id, data }) => {
-          return db.models.EntryLink.findByIdAndUpdate(id, data, {
+        resolve: (root, { id, data }) =>
+          db.models.EntryLink.findByIdAndUpdate(id, data, {
             runValidators: true,
             new: true
           }).then(
-            function(object) {
-              return { nores, entryLink: object }
-            },
-            function(err) {
-              let errors = getErrors(err)
+            object => ({ nores, entryLink: object }),
+            err => {
+              const errors = getErrors(err)
               return { errors, nores }
             }
           )
-        }
       },
       deleteEntryLink: {
         type: EntryLinkDeleteType,
         args: { id: { name: 'id', type: new GraphQLNonNull(GraphQLID) } },
-        resolve: (root, { id }) => {
-          return db.models.EntryLink.findByIdAndRemove(id).then(
-            function(object) {
-              return { deleted: true, entryLink: object }
-            },
-            function(err) {
-              return { deleted: false, entryLink: object }
-            }
+        resolve: (root, { id }) =>
+          db.models.EntryLink.findByIdAndRemove(id).then(
+            object => ({ deleted: true, entryLink: object }),
+            err => ({ deleted: false, entryLink: object })
           )
-        }
       }
     })
   })
