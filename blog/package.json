@@ -9,8 +9,46 @@
     "initdb": "node ./scripts/initdb.js",
     "revert": "npm run dropdb && npm run initdb"
   },
+  "proxy": "http://localhost:3000",
+  "eslintConfig": {
+    "extends": [
+      "airbnb",
+      "prettier"
+    ],
+    "parser": "babel-eslint",
+    "rules": {
+      "no-extra-semi": 2,
+      "semi": 0,
+      "react/jsx-filename-extension": 0,
+      "prettier/prettier": "error"
+    },
+    "plugins": [
+      "prettier",
+      "babel"
+    ],
+    "env": {
+      "browser": true,
+      "jest": true
+    }
+  },
+  "prettier": {
+    "semi": false,
+    "singleQuote": true
+  },
   "author": "vonautomatisch",
   "license": "MIT",
+  "devDependencies": {
+    "babel-eslint": "^8.2.2",
+    "eslint": "^4.11.0",
+    "eslint-config-airbnb": "^16.1.0",
+    "eslint-config-prettier": "^2.7.0",
+    "eslint-plugin-babel": "^4.1.2",
+    "eslint-plugin-import": "^2.8.0",
+    "eslint-plugin-jsx-a11y": "^6.0.2",
+    "eslint-plugin-prettier": "^2.3.1",
+    "eslint-plugin-react": "^7.5.0",
+    "prettier": "^1.8.2"
+  },
   "dependencies": {
     "async": "^2.0.0-rc.2",
     "babel": "^6.5.2",

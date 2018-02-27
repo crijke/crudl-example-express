@@ -9,23 +9,23 @@ var entries = require('./views/entries')
 var { login, logout } = require('./auth')
 
 const OPTIONS = {
-    debug: false,
-    basePath: '/crudl-graphql/',
-    baseURL: '/graphql-api/',
+  debug: false,
+  basePath: '/crudl-graphql/',
+  baseURL: '/graphql-api/'
 }
 
 var admin = {}
-admin.title = 'crudl.io Express GraphQL Example',
+admin.title = 'crudl.io Express GraphQL Example'
 admin.options = OPTIONS
 admin.views = { users, sections, categories, tags, entries }
 admin.auth = { login, logout }
 admin.custom = { dashboard: CustomDashboard }
 admin.id = 'crudl-example-express'
 admin.messages = {
-    'login.button': 'Sign in',
-    'logout.button': 'Sign out',
-    'logout.affirmation': 'Have a nice day!',
-    'pageNotFound': 'Sorry, page not found.',
+  'login.button': 'Sign in',
+  'logout.button': 'Sign out',
+  'logout.affirmation': 'Have a nice day!',
+  pageNotFound: 'Sorry, page not found.'
 }
 
 export default admin
