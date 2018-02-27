@@ -2,8 +2,9 @@
 This is a [CRUDL](http://crudl.io/) example with [Node.js](https://nodejs.org), [Express](http://expressjs.com/) (REST and GraphQL) and [MongoDB](https://mongodb.com).
 
 * CRUDL is still under development and the syntax might change (esp. with connectors and views).
-* The relevant part for your admin interface is within the folder crudl-admin-rest/admin/ (resp. crudl-admin-graphql/admin/). All other files and folders are generally given when using CRUDL.
+* The relevant part for your admin interface is within the folder crudl-admin-rest/src/admin/ (resp. crudl-admin-graphql/src/admin/). All other files and folders are generally given when using CRUDL.
 * The views are intentionally verbose in order to illustrate the possibilites with CRUDL.
+* The folders crudl-admin-rest and crudl-admin-graphql are projects created with create-react-app. 
 
 ## Contents
 * [Requirements](#requirements)
@@ -56,33 +57,31 @@ In order to use this example, you need to setup the API and serve the CRUDL admi
 
     ```shell
     $ cd blog
-    blog $ npm install --no-optional
+    blog $ npm install
     blog $ npm run initdb
     blog $ npm run start
     ```
 
-    If nodemon is not yet installed, you need to run ``npm install -g nodemon`` before starting the server.
-
-4. Open a new terminal window/tab and build the CRUDL admin file. Go to /crudl-admin-rest/ and type:
+4. Open a new terminal window/tab and run the React app. Go to /crudl-admin-rest/ and type:
 
     ```shell
-    crudl-admin-rest $ npm install --no-optional
-    crudl-admin-rest $ npm run watchify
+    crudl-admin-rest $ npm install
+    crudl-admin-rest $ npm start
     ```
 
-5. Open your browser, go to ``http://localhost:3000/crudl-rest/`` and login with the demo user (demo/demo).
+5. Open your browser, go to ``http://localhost:4000/`` and login with the demo user (demo/demo).
 
 ### Installation (GraphQL)
 Steps 1 to 3 are equal to [Installation (REST)](#installation-rest).
 
-4. Open a new terminal window/tab and build the CRUDL admin file. Go to /crudl-admin-graphql/ and type:
+4. Open a new terminal window/tab and run the React app. Go to /crudl-admin-graphql/ and type:
 
     ```shell
-    crudl-admin-graphql $ npm install --no-optional
-    crudl-admin-graphql $ npm run watchify
+    crudl-admin-graphql $ npm install
+    crudl-admin-graphql $ npm start
     ```
 
-5. Open your browser, go to ``http://localhost:3000/crudl-graphql/`` and login with the demo user (demo/demo).
+5. Open your browser, go to ``http://localhost:4000/`` and login with the demo user (demo/demo).
 
 ## CRUDL documentation
 https://github.com/crudlio/crudl
@@ -119,7 +118,7 @@ There is a npm package implementing general connectors [crudl-connectors-base](h
 With views, you create the visual representation by defining the _listView_, _changeView_ and _addView_ options:
 
 ```javascript
-var listView = {
+const listView = {
     // Required
     path: "api/path/to/collection",
     title: "Collection Name",
@@ -132,7 +131,7 @@ var listView = {
     normalize: (data) => { },
 }
 
-var changeView = {
+const changeView = {
     // Required
     path: "api/path/to/collection/:_id",
     title: "Detail Name",
@@ -303,7 +302,7 @@ changeView.tabs = [
 With _Entries_, we set the owner to the currently logged-in user with denormalize:
 
 ```javascript
-var addView = {
+const addView = {
     denormalize: (data) => {
         /* set owner on add. alternatively, we could manipulate the data
         with the connector by using createRequestData */
@@ -316,7 +315,7 @@ var addView = {
 With _Users_, we add a custom column full_name with the listView:
 
 ```javascript
-var listView = {
+const listView = {
     normalize: (list) => list.map(item => {
         item.full_name = <span><b>{item.last_name}</b>, {item.first_name}</span>
         return item
@@ -386,7 +385,7 @@ Validation should usually be handled with the API. That said, it sometimes makes
 In order to validate the complete form, you define a function _validate_ with the _changeView_ or _addView_:
 
 ```javascript
-var changeView = {
+const changeView = {
     path: 'entries/:_id',
     title: 'Blog Entry',
     actions: { ... },
@@ -402,7 +401,7 @@ var changeView = {
 With _Entries_, we added a custom column to the _listView_ based on the currently logged-in user.
 
 ```javascript
-var listView = {
+const listView = {
     path: 'entries',
     title: 'Blog Entries',
     actions: {
