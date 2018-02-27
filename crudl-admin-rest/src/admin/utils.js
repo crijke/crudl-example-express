@@ -1,7 +1,6 @@
 import toPath from 'lodash/toPath'
 import get from 'lodash/get'
 
-//-------------------------------------------------------------------
 export function continuousPagination(res) {
   let nextPage
   let resultsTotal
@@ -56,7 +55,6 @@ export function numberedPagination(res) {
   }
 }
 
-//-------------------------------------------------------------------
 export function urlQuery(req) {
   return Object.assign({}, req.filters, req.page && { page: req.page }, {
     ordering: req.sorting
@@ -68,7 +66,6 @@ export function urlQuery(req) {
   })
 }
 
-//-------------------------------------------------------------------
 export function join(p1, p2, var1, var2) {
   return Promise.all([p1, p2]).then(responses =>
     responses[0].set(

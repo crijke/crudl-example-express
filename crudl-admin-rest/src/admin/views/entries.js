@@ -1,5 +1,7 @@
-import { formatDate, formatStringToDate, select } from '../utils'
 import React from 'react'
+import crudl from '@crudlio/crudl/dist/crudl'
+
+import { formatDate, formatStringToDate, select } from '../utils'
 
 import { list, detail, options } from '../connectors'
 
@@ -13,7 +15,6 @@ const sectionOpts = options('sections', '_id', 'name')
 const tagOpts = options('tags', '_id', 'name')
 const categoryOpts = options('categories', '_id', 'name')
 
-//-------------------------------------------------------------------
 const listView = {
   path: 'entries',
   title: 'Blog Entries',
@@ -199,7 +200,6 @@ listView.filters = {
   ]
 }
 
-//-------------------------------------------------------------------
 const changeView = {
   path: 'entries/:_id',
   title: 'Blog Entry',
@@ -430,7 +430,6 @@ changeView.tabs = [
   }
 ]
 
-//-------------------------------------------------------------------
 const addView = {
   path: 'entries/new',
   title: 'New Blog Entry',
@@ -449,9 +448,8 @@ const addView = {
   }
 }
 
-//-------------------------------------------------------------------
-module.exports = {
+export default {
   listView,
-  addView,
-  changeView
+  changeView,
+  addView
 }

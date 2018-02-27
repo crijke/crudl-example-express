@@ -1,3 +1,5 @@
+import crudl from '@crudlio/crudl/dist/crudl'
+
 import { slugify } from '../utils'
 
 import { list, detail } from '../connectors'
@@ -6,7 +8,6 @@ const tags = list('tags')
 const tag = detail('tags') // Partial parametrization of a detail connector: the id parameter is not yet bound
 const entries = list('entries')
 
-//-------------------------------------------------------------------
 const listView = {
   path: 'tags',
   title: 'Tags',
@@ -88,7 +89,6 @@ listView.filters = {
   ]
 }
 
-//-------------------------------------------------------------------
 const changeView = {
   path: 'tags/:_id',
   title: 'Tag',
@@ -124,7 +124,6 @@ changeView.fields = [
   }
 ]
 
-//-------------------------------------------------------------------
 const addView = {
   path: 'tags/new',
   title: 'New Tag',
@@ -136,7 +135,7 @@ const addView = {
   }
 }
 
-module.exports = {
+export default {
   listView,
   changeView,
   addView

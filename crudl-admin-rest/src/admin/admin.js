@@ -1,16 +1,15 @@
-import React from 'react'
 import CustomDashboard from './custom/Dashboard'
+import auth from './auth'
 
-const users = require('./views/users')
-const sections = require('./views/sections')
-const categories = require('./views/categories')
-const tags = require('./views/tags')
-const entries = require('./views/entries')
-const { login, logout } = require('./auth')
+import users from './views/users'
+import sections from './views/sections'
+import categories from './views/categories'
+import tags from './views/tags'
+import entries from './views/entries'
 
 const OPTIONS = {
   debug: false,
-  basePath: '/crudl-rest/',
+  basePath: '/',
   baseURL: '/rest-api/'
 }
 
@@ -18,7 +17,7 @@ const admin = {}
 admin.title = 'crudl.io Express REST Example'
 admin.options = OPTIONS
 admin.views = { users, sections, categories, tags, entries }
-admin.auth = { login, logout }
+admin.auth = auth
 admin.custom = { dashboard: CustomDashboard }
 admin.id = 'crudl-example-express'
 admin.messages = {

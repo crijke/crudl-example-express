@@ -1,5 +1,5 @@
 import { login as loginConnector } from './connectors'
-//-------------------------------------------------------------------
+
 const login = {
   // path: 'login', // optional
   // title: 'Login', // optional
@@ -23,8 +23,9 @@ login.fields = [
   }
 ]
 
-//-------------------------------------------------------------------
-module.exports = {
+const logout = undefined
+
+export default {
   login,
-  logout: undefined // Logout is optional
+  logout
 }

@@ -14,13 +14,12 @@ import buildQuery from './middleware/buildQuery'
 
 const baseURL = '/rest-api/'
 
-function createExpressConnector(urlPath) {
-  return createFrontendConnector(createBackendConnector({ baseURL }))
+export const createExpressConnector = urlPath =>
+  createFrontendConnector(createBackendConnector({ baseURL }))
     .use(buildQuery())
     .use(crudToHttp())
     .use(url(urlPath))
     .use(crudlErrors)
-}
 
 export const list = createExpressConnector(':collection/').use(
   numberedPagination

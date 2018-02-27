@@ -1,4 +1,6 @@
 import React from 'react'
+import crudl from '@crudlio/crudl/dist/crudl'
+
 import SplitDateTimeField from '../fields/SplitDateTimeField'
 
 import { list, detail, options } from '../connectors'
@@ -6,7 +8,6 @@ import { list, detail, options } from '../connectors'
 const users = list('users')
 const user = detail('users')
 
-//-------------------------------------------------------------------
 const listView = {
   path: 'users',
   title: 'Users',
@@ -69,7 +70,6 @@ listView.fields = [
   }
 ]
 
-//-------------------------------------------------------------------
 const changeView = {
   path: 'users/:_id',
   title: 'User',
@@ -193,7 +193,6 @@ changeView.fieldsets = [
   }
 ]
 
-//-------------------------------------------------------------------
 const addView = {
   path: 'users/new',
   title: 'New User',
@@ -267,7 +266,7 @@ addView.fieldsets = [
         label: 'Password (Confirm)',
         field: 'Password',
         validate: (value, allValues) => {
-          if (value != allValues.password) {
+          if (value !== allValues.password) {
             return 'The passwords do not match.'
           }
         }
@@ -276,7 +275,7 @@ addView.fieldsets = [
   }
 ]
 
-module.exports = {
+export default {
   listView,
   changeView,
   addView

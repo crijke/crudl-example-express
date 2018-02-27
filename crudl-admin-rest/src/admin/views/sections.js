@@ -1,5 +1,7 @@
-import { slugify } from '../utils'
 import React from 'react'
+import crudl from '@crudlio/crudl/dist/crudl'
+
+import { slugify } from '../utils'
 
 import { list, detail, options } from '../connectors'
 
@@ -7,7 +9,6 @@ const sections = list('sections')
 const section = detail('sections')
 const entries = list('entries')
 
-//-------------------------------------------------------------------
 const listView = {
   path: 'sections',
   title: 'Sections',
@@ -79,7 +80,6 @@ listView.fields = [
   }
 ]
 
-//-------------------------------------------------------------------
 const changeView = {
   path: 'sections/:_id',
   title: 'Section',
@@ -123,7 +123,6 @@ changeView.fields = [
   }
 ]
 
-//-------------------------------------------------------------------
 const addView = {
   path: 'sections/new',
   title: 'New Section',
@@ -135,7 +134,7 @@ const addView = {
   }
 }
 
-module.exports = {
+export default {
   listView,
   changeView,
   addView

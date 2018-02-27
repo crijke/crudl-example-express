@@ -53,6 +53,7 @@
   "dependencies": {
     "@crudlio/crudl": "https://github.com/crudlio/crudl.git",
     "@crudlio/crudl-connectors-base": "https://github.com/crudlio/crudl-connectors-base.git",
+    "prop-types": "^15.6.1",
     "react": "^15.1.0",
     "react-dom": "^16.2.0",
     "react-scripts": "1.1.1"
